@@ -1,4 +1,5 @@
-#massage-string{
+ /* style at all error massages */
+ #massage-string{
     display: none;
 }
 #massage-number{
