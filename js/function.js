@@ -1,67 +1,75 @@
 function moneyAmount(money){
       
       const moneyInput =document.getElementById(money+'-input');
-      const moneyInputText =moneyInput.value;
-      if (isNaN(moneyInputText)){
-            const massageString =document.getElementById('massage-string'); 
-            const massageNumber = document.getElementById('massage-number');
-          massageString.style.display='block';
-          massageNumber.style.display='none';  
-            console.log('Please enter valid numbers')
-            
-      }
-      else if(moneyInputText<0){
-            const massageString =document.getElementById('massage-string'); 
-      const massageNumber = document.getElementById('massage-number');
-massageNumber.style.display='block';
-massageString.style.display='none';
-      } 
+      const moneyInputText =moneyInput.value
       
-      else {
-      //       const massageString =document.getElementById('massage-string'); 
-      // const massageNumber = document.getElementById('massage-number');
-            // massageString.style.display='none';
-            // massageNumber.style.display='none';      
-      const moneyInputNumber=parseFloat(moneyInputText);
-       return moneyInputNumber;
+       return moneyInputText;
 
-      console.log(moneyInputNumber)
-      }
+      console.log(moneyInputText)
+      
+}
+function reset (money){
+      const moneyInput =document.getElementById(money+'-input');
+      moneyInput.value=0;
+}
+function resetAmount(){
+      reset('income')
+      reset('food')
+      reset('rent')
+      reset('cloth')
 }
 
-// Add enent handler at calculate button
+// Add event handler at calculate button
 document.getElementById("calculate-btn").addEventListener('click',function(){
       // income input
       const income =moneyAmount('income');
-      console.log(income)
+      const incomeP=parseFloat(income)
+      console.log(incomeP)
         //  food input  
    const foodExpence = moneyAmount('food')
+   const foodExpenceP=parseFloat(foodExpence)
 // rent input
 const rentExpence = moneyAmount('rent')
+const rentExpenceP=parseFloat(rentExpence);
 // cloth input
 const clothExpence = moneyAmount('cloth')
-
-// total expences calculate
-const totalExpence =document.getElementById('total-expences')
-totalExpence.innerText = foodExpence+rentExpence+clothExpence;
-const totalExpenceAmount=parseFloat(totalExpence.innerText);
-totalExpence.innerText=totalExpenceAmount;
-console.log(totalExpenceAmount);
-if (totalExpenceAmount> income){
-const massageRight = document.getElementById('massage-right');
-massageRight.style.display='block';
+const clothExpenceP=parseFloat(clothExpence)
+if(isNaN(foodExpence)|| isNaN(income)|| isNaN(rentExpence)|| isNaN(clothExpence) || income<0 || foodExpence<0 || rentExpence<0 ||clothExpence<0){
+      document.getElementById('massage-string').style.display='block';
+      resetAmount();
+      document.getElementById('total-expences').innerText=0;
+      document.getElementById('balance').innerText=0;  
 }
 else{
-      const massageRight = document.getElementById('massage-right');
-massageRight.style.display='none';
+// total expences calculate
+document.getElementById('massage-string').style.display='none';
+const totalExpence =document.getElementById('total-expences');
+const totalExpenceAmount =foodExpenceP+rentExpenceP+clothExpenceP;
+totalExpence.innerText=totalExpenceAmount;
+console.log(totalExpenceAmount)
 //  get balance 
 const balance = document.getElementById('balance');
 // balance calculation
 
-const balanceTotal = income-totalExpenceAmount;
-balance.innerText=balanceTotal;
+const balanceTotal = incomeP-totalExpenceAmount;
+
 console.log(balanceTotal)
+if (balanceTotal<0){
+      const massageRight = document.getElementById('massage-right');
+      massageRight.style.display='block';
+      resetAmount()
+      totalExpence.innerText=0;
+      balance.innerText=0
+      }
+      else{
+            const massageRight = document.getElementById('massage-right');
+      massageRight.style.display='none';
+      balance.innerText=balanceTotal;
+      }
+
 }
+
+
 
 })
 // add event handler on save button
@@ -82,8 +90,10 @@ const balance = document.getElementById('balance');
   if(totalSaveAmount>balanceTotal2){
   const massageSmaller = document.getElementById('massage-smaller');
   massageSmaller.style.display='block';
-  saveAmount.innerText='';
   
+
+  saveAmount.innerText=0;
+  document.getElementById('remaining-balance').innerText=0;
   }
   else{
       const massageSmaller = document.getElementById('massage-smaller');
